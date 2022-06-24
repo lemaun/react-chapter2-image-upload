@@ -15,14 +15,16 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const [imageUrl, setImageUrl] = useState('');
   const [localImageUrl, setLocalImageUrl] = useState('');
   const toast = useToast();
-
+  const filetypes = /\.(jpe?g|png|gif)$/i
   const formValidations = {
     image: {
       // TODO REQUIRED, LESS THAN 10 MB AND ACCEPTED FORMATS VALIDATIONS
       required: 'Arquivo Obrigatório',
       validade: {
-        lessThen10Mb: '',
-        acceptedFormats: '',
+        lessThen10Mb: files =>
+                      files[0].size < 10000000 || 'O arquivo deve ser menor que 10MB',
+        acceptedFormats: files =>
+                          filetypes.test(files[0].type) || 'Formato inválido. Aceita apenas PNG, JPG e GIF',
       }
     },
     title: {
