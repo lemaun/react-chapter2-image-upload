@@ -37,7 +37,6 @@ export default function Home(): JSX.Element {
 
   const {
     data,
-    status,
     isLoading,
     isError,
     isFetchingNextPage,
