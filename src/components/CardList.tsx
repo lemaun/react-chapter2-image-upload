@@ -22,7 +22,7 @@ export function CardList({ cards }: CardsProps): JSX.Element {
   // TODO SELECTED IMAGE URL STATE
   const [selectedImage, setSelectedImage] = useState('');
   // TODO FUNCTION HANDLE VIEW IMAGE
-  function handleOpenModal(url: string): void {
+  function handleViewImage(url: string): void {
     setSelectedImage(url);
     onOpen();
   }
@@ -31,7 +31,7 @@ export function CardList({ cards }: CardsProps): JSX.Element {
       <SimpleGrid columns={3} spacing="10">
         {
           cards.map(card => {
-            <Card key={card.id} data={card} viewImage={() => handleOpenModal(card.url) }/>
+            return (<Card key={card.id} data={card} viewImage={() => handleViewImage(card.url) }/>)
           })
         }
       </SimpleGrid>
