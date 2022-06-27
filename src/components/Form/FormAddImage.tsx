@@ -43,6 +43,7 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const queryClient = useQueryClient();
   const mutation = useMutation(
     // TODO MUTATION API POST REQUEST,
+
     {
       // TODO ONSUCCESS MUTATION
     }
@@ -61,12 +62,38 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
   const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
     try {
       // TODO SHOW ERROR TOAST IF IMAGE URL DOES NOT EXISTS
+      if (!imageUrl) {
+        toast({
+          status: 'error',
+          title: 'Erro na imagem',
+          description: 'Ocorreu um erro ao tentar fazer upload da imagem'
+        })
+        return
+      }
+
       // TODO EXECUTE ASYNC MUTATION
+      await mutation.mutateAsync(data)
+
       // TODO SHOW SUCCESS TOAST
+      toast ({
+        status: 'success',
+        title: 'Imagem cadastrada',
+        description: 'Imagem cadastrada com sucesso'
+      })
+
     } catch {
       // TODO SHOW ERROR TOAST IF SUBMIT FAILED
+      toast ({
+        status: 'error',
+        title: 'Erro ao cadastrar imagem',
+        description: 'Erro ao tentar cadastrar imagem'
+      })
     } finally {
       // TODO CLEAN FORM, STATES AND CLOSE MODAL
+      reset()
+      setLocalImageUrl('')
+      setImageUrl('')
+      closeModal()
     }
   };
 
@@ -80,19 +107,25 @@ export function FormAddImage({ closeModal }: FormAddImageProps): JSX.Element {
           setError={setError}
           trigger={trigger}
           // TODO SEND IMAGE ERRORS
+          error={errors.image}
           // TODO REGISTER IMAGE INPUT WITH VALIDATIONS
-        />
+          {...register('image', formValidations.image)}
+          />
 
         <TextInput
           placeholder="Título da imagem..."
           // TODO SEND TITLE ERRORS
+          error={errors.title}
           // TODO REGISTER TITLE INPUT WITH VALIDATIONS
-        />
+          {...register('title', formValidations.title)}
+          />
 
         <TextInput
           placeholder="Descrição da imagem..."
           // TODO SEND DESCRIPTION ERRORS
+          error={errors.description}
           // TODO REGISTER DESCRIPTION INPUT WITH VALIDATIONS
+          {...register('description', formValidations.description)}
         />
       </Stack>
 
